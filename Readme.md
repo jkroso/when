@@ -1,4 +1,4 @@
-# promise-maybe
+# when
 
 call a function on something which might be a promise without worry
 
@@ -15,10 +15,9 @@ In Node.js
 ## API
 
 ```javascript
-var promise-maybe = require('when')
+var when = require('when')
 ```
   - [when()](#when)
-  - [exports.access](#exportsaccess)
   - [exports.to](#exportsto)
   - [exports.is](#exportsis)
   - [exports.toTrusted](#exportstotrusted)
@@ -31,20 +30,29 @@ var promise-maybe = require('when')
 when(value, function(value) {
   // can safely assume the value is not a promise here
 })
+when(value).then(function(value){
+  // as above
+})
 ```
-
-## exports.access
-
-  Call the function with the value in the most light weight way possible
 
 ## exports.to
 
   Ensure a value is represented by a promise
   Note: this doesn't guarantee a particular promise implementation
+  
+```js
+toPromise(1).then(function(value){
+  value === 1 // => true
+})
+```
 
 ## exports.is
 
   A ducktype test to see if an object could be a promise
+  
+```js
+isPromise({then:function(){}}) // => true
+```
 
 ## exports.toTrusted
 

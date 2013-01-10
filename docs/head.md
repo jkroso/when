@@ -1,4 +1,4 @@
-# promise-maybe
+# when
 
 call a function on something which might be a promise without worry
 
@@ -15,5 +15,5 @@ In Node.js
 ## API
 
 ```javascript
-var promise-maybe = require('when')
+var when = require('when')
 ```

@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "laissez-faire": "*"
-    },
+  },
   "devDependencies": {
     "mocha": "*",
     "chai": "*"
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jkroso/promise-maybe.git"
+    "url": "git://github.com/jkroso/when.git"
   },
   "bugs": {
-    "url": "https://github.com/jkroso/promise-maybe/issues"
+    "url": "https://github.com/jkroso/when/issues"
   },
   "keywords": ["promise","when"],
   "author": "Jakeb Rosoman",

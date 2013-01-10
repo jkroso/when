@@ -9,6 +9,9 @@ exports = module.exports = when
  *   when(value, function(value) {
  *     // can safely assume the value is not a promise here
  *   })
+ *   when(value).then(function(value){
+ *     // as above
+ *   })
  *
  * @param {Any} value
  * @param {Function} success
@@ -24,11 +27,16 @@ function when (value, success, fail) {
 /**
  * Call the function with the value in the most light weight way possible
  *
+ *   once(value, function(value) {
+ *     // can safely assume the value is not a promise here
+ *   })
+ *
  * @param {Any} value
  * @param {Function} success
  * @param {Function} [fail]
  */
 
+exports.once =
 exports.access = once
 function once (value, success, fail) {
 	if (!value) 
@@ -43,6 +51,10 @@ function once (value, success, fail) {
 /**
  * Ensure a value is represented by a promise
  * Note: this doesn't guarantee a particular promise implementation
+ *
+ *   toPromise(1).then(function(value){
+ *     value === 1 // => true
+ *   })
  * 
  * @param {Any} value
  * @return {Promise} not necessarily a new promise though
@@ -57,6 +69,8 @@ function toPromise (value) {
 
 /**
  * A ducktype test to see if an object could be a promise
+ *
+ *   isPromise({then:function(){}}) // => true
  *
  * @param {Any} value
  * @return {Boolean}
