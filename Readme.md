@@ -10,13 +10,7 @@ With component(1)
 
 In Node.js 
 
-`npm install when`
-
-## Basic Usage
-
-```javascript
-// example here
-```
+`npm install jkroso/when`
 
 ## API
 
