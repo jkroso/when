@@ -1,0 +1,26 @@
+{
+  "name": "when",
+  "version": "0.1.0",
+  "description": "call a function on something which might be a promise without worry",
+  "main": "src/index.js",
+  "dependencies": {
+    "laissez-faire": "*"
+    },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "scripts" : {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jkroso/promise-maybe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jkroso/promise-maybe/issues"
+  },
+  "keywords": ["promise","when"],
+  "author": "Jakeb Rosoman",
+  "license": "MIT"
+}

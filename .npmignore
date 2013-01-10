@@ -1,0 +1,9 @@
+/.gitignore
+/.npmignore
+/node_modules
+/components
+/build
+/docs
+/test
+*.sublime-project
+*.sublime-workspace
