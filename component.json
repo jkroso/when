@@ -4,7 +4,9 @@
   "description": "call a function on something which might be a promise without worry",
   "version": "0.1.0",
   "keywords": ["promise","when"],
-  "dependencies": {},
+  "dependencies": {
+    "jkroso/laissez-faire": "*"
+  },
   "main": "src/index.js",
   "scripts": [
 	"src/index.js"
