@@ -1,27 +1,32 @@
-all: clean build test
+EXPORT= when
+GRAPH= node_modules/.bin/sourcegraph.js index.js -p javascript,nodeish
+BIGFILE= node_modules/.bin/bigfile.js -x $(EXPORT) -p javascript,nodeish
+REPORTER= spec
 
-install: components
+all: test/built.js browser
 
-components:
-	@component install -d
+browser: dist dist/when.js
+	@du -ah dist/*
 
-build: install
-	@component build -dv
+dist:
+	@mkdir -p dist
+
+dist/when.js: dist
+	@$(GRAPH) | $(BIGFILE) > $@
 
 test:
-	@mocha -R spec test/index.test.js
-
-build-test:
-	@bigfile --entry=test/browser.js --write=test/built.js -lb
+	@node_modules/.bin/mocha test/*.test.js \
+		-R $(REPORTER)
 
 clean:
-	@rm -rf dist test/built.js components build
+	@rm -rf dist
+	@rm -rf test/built.js
 
-Readme.md: src/index.js docs/head.md docs/tail.md
-	@cat docs/head.md > Readme.md
-	@cat src/index.js\
-	 | sed s/.*=.$$//\
-	 | dox -a >> Readme.md
-	@cat docs/tail.md >> Readme.md
+test/built.js: index.js test/*
+	@node_modules/.bin/sourcegraph.js test/browser.js \
+		--plugins mocha,nodeish,javascript \
+		| node_modules/.bin/bigfile.js \
+			--export null \
+			--plugins nodeish,javascript > $@
 
-.PHONY: all build test build-test clean install
+.PHONY: all test clean browser

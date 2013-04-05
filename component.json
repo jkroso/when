@@ -1,16 +1,14 @@
 {
   "name": "when",
-  "repo": "jkroso/promise-maybe",
-  "description": "call a function on something which might be a promise without worry",
-  "version": "0.1.0",
-  "keywords": ["promise","when"],
+  "repo": "jkroso/when",
+  "description": "access a value which might be hidden behind a promise proxy object",
+  "version": "0.2.0",
+  "keywords": ["when","promise"],
   "dependencies": {
-    "jkroso/laissez-faire": "*"
+    "jkroso/laissez-faire": "0.11.0"
   },
-  "main": "src/index.js",
   "scripts": [
-	"src/index.js"
+	  "index.js"
   ],
-  "styles":[],
   "license": "MIT"
 }
