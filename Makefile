@@ -1,5 +1,5 @@
 EXPORT= when
-GRAPH= node_modules/.bin/sourcegraph.js index.js -p javascript,nodeish
+GRAPH= node_modules/.bin/sourcegraph.js index.js -p nodeish
 BIGFILE= node_modules/.bin/bigfile.js -x $(EXPORT) -p javascript,nodeish
 REPORTER= spec
 
@@ -24,7 +24,7 @@ clean:
 
 test/built.js: index.js test/*
 	@node_modules/.bin/sourcegraph.js test/browser.js \
-		--plugins mocha,nodeish,javascript \
+		--plugins mocha,nodeish \
 		| node_modules/.bin/bigfile.js \
 			--export null \
 			--plugins nodeish,javascript > $@

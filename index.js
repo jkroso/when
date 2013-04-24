@@ -1,5 +1,5 @@
 
-var Promise = require('laissez-faire')
+var Promise = require('laissez-faire/full')
   , newFulfilled = Promise.fulfilled
 
 module.exports = when

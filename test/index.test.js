@@ -1,6 +1,6 @@
 
 var should = require('chai').should()
-  , Promise = require('laissez-faire')
+  , Promise = require('laissez-faire/full')
   , when = require('..')
   , read = when.read
 
@@ -14,7 +14,7 @@ describe('when(value)', function () {
    it('should extract the value of the untrusted promise', function (done) {
    	when({then: function(fn){fn(1)}}).then(function(v){
    		v.should.equal(1)
-   	}).nead(done)
+   	}).node(done)
    })
 })
 
