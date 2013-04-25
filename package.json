@@ -1,15 +1,15 @@
 {
   "name": "when",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "access a value which might be hidden behind a promise proxy object",
   "dependencies": {
-    "laissez-faire": "~0.12.0"
+    "laissez-faire": "~0.12.1"
   },
   "devDependencies": {
     "mocha": "~1.9.0",
     "chai": "~1.5.0",
     "bigfile": "0.3.3",
-    "sourcegraph": "0.6.2"
+    "sourcegraph": "0.6.4"
   },
   "scripts": {
     "test": "make test"

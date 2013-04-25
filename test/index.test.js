@@ -2,7 +2,7 @@
 var should = require('chai').should()
   , Promise = require('laissez-faire/full')
   , when = require('..')
-  , read = when.read
+  , read = require('../read')
 
 describe('when(value)', function () {
    it('should return a trusted promise', function () {
@@ -33,7 +33,7 @@ describe('when(value, success, fail)', function () {
    })
 })
 
-describe('when.read(value, success, fail)', function () {
+describe('read(value, success, fail)', function () {
 	it('should call the success function with the value', function () {
 		read(true, function (value) {
 			value.should.equal(true)

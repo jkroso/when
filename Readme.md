@@ -1,7 +1,7 @@
 
 # when
 
-  access a value which might be hidden behind a promise proxy object
+  access a value which might be hidden behind a promise proxy
 
 ## Getting Started
 
@@ -17,16 +17,19 @@ then in your app:
 
 ```js
 var when = require('when')
+var read = require('when/read')
 ```
 
 ## API
 
   - [when()](#whenvalueanyfulfillcasefunctionrejectioncasefunction)
-  - [when.read()](#whenreadvalueanyfulfillcasefunctionrejectioncasefunction)
+  - [read()](#whenreadvalueanyfulfillcasefunctionrejectioncasefunction)
 
-## when(value:Any, [fulfill-case]:Function, [rejection-case]:Function)
+### when(value:any, onsuccess:Function, onfail:Function)
 
-  create a promise for a transformation on `value`
+  await a value if its wrapped in a promise
+  otherwise call `onsuccess` immediately. This is
+  useful if aren't sure if you have a promise or not
 
 ```js
 when(value, function(value) {
@@ -39,10 +42,10 @@ when(value).then(function(value){
 when(value)
 ```
 
-## when.read(value:Any, fulfill-case:Function, [rejection-case]:Function)
+### read(value:any, onsuccess:Function, onfail:Function)
 
-  read the value of `value`.
-  ie don't bother returning a promise
+  like `when` but doesn't bother to return a promise. The benefit of this is
+  that its smaller and faster
 
 ## Running the tests
 
