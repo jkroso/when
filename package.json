@@ -1,7 +1,7 @@
 {
   "name": "when",
-  "version": "1.0.0",
-  "description": "access a value which might be hidden behind a promise proxy object",
+  "version": "2.0.0",
+  "description": "access a value which might be within a promise",
   "dependencies": {
     "laissez-faire": "~0.12.4"
   },

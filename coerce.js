@@ -4,7 +4,7 @@ var wrap = Promise.fulfilled
 
 
 /**
- * convert `value` to a trusted promise
+ * coerce `value` to a trusted promise
  *
  * @param {any} value
  * @return {Promise}

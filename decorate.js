@@ -4,6 +4,13 @@ var Promise = require('laissez-faire/full')
   , coerce = require('./coerce')
   , when = require('./')
 
+/**
+ * decorate `ƒ` so it can receive promised arguments
+ * 
+ * @param {Function} ƒ
+ * @return {Promise}
+ */
+
 module.exports = function(ƒ){
 	return function(){
 		var args = arguments

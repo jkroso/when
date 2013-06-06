@@ -1,6 +1,7 @@
 
 /**
- * like index.js but doesn't bother to return a promise
+ * read the value of `value` even if its 
+ * behind a promise proxy
  *
  * @param {any} value
  * @param {Function} onValue

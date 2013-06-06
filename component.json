@@ -2,7 +2,7 @@
   "name": "when",
   "repo": "jkroso/when",
   "description": "access a value which might be within a promise",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "keywords": [
     "when",
     "promise"
@@ -12,7 +12,8 @@
   },
   "scripts": [
     "index.js",
-    "read.js"
+    "coerce.js",
+    "decorate.js"
   ],
   "license": "MIT",
   "development": {
