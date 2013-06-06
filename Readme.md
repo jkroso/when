@@ -1,62 +1,38 @@
 
 # when
 
-  access a value which might be hidden behind a promise proxy
+  access a value which might be within a promise
 
 ## Getting Started
 
-_With component_  
+_With [component](//github.com/component/component), [packin](//github.com/jkroso/packin) or [npm](//github.com/isaacs/npm)_  
 
-	$ component install jkroso/when
-
-_With npm_  
-
-	$ npm install jkroso/when --save
+	$ {package mananger} install jkroso/when
 
 then in your app:
 
 ```js
 var when = require('when')
-var read = require('when/read')
 ```
 
 ## API
 
-  - [when()](#whenvalueanyfulfillcasefunctionrejectioncasefunction)
-  - [read()](#whenreadvalueanyfulfillcasefunctionrejectioncasefunction)
+  - [when()](#whenvalueanyonvaluefunctiononerrorfunction)
+  - [decorate()](#decoratefunction)
+  - [coerce()](#coercevalueany)
 
-### when(value:any, onsuccess:Function, onfail:Function)
+### when(value:any, onValue:Function, onError:Function)
 
-  await a value if its wrapped in a promise
-  otherwise call `onsuccess` immediately. This is
-  useful if aren't sure if you have a promise or not
+  read the value of `value` even if its within a promise
 
-```js
-when(value, function(value) {
-  return transform(value)
-})
-when(value).then(function(value){
-  // same as above
-})
-// just convert to a trusted promise
-when(value)
-```
+### decorate(ƒ:Function)
 
-### read(value:any, onsuccess:Function, onfail:Function)
+  decorate `ƒ` so it can receive promised arguments
 
-  like `when` but doesn't bother to return a promise. The benefit of this is
-  that its smaller and faster
+### coerce(value:any)
+
+  coerce `value` to a trusted promise
 
 ## Running the tests
 
-```bash
-$ npm install
-$ make
-```
-Then open your browser to the `./test` directory.
-
-_Note: these commands don't work on windows._ 
-
-## License 
-
-[MIT](License)
+Just run `make`. It will install and start a development server so all you then need to do is point your browser to `localhost:3000/test`.
