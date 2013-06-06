@@ -1,14 +1,23 @@
 {
   "name": "when",
   "repo": "jkroso/when",
-  "description": "access a value which might be hidden behind a promise proxy object",
-  "version": "0.2.0",
-  "keywords": ["when","promise"],
+  "description": "access a value which might be within a promise",
+  "version": "1.0.0",
+  "keywords": [
+    "when",
+    "promise"
+  ],
   "dependencies": {
-    "jkroso/laissez-faire": "0.11.0"
+    "jkroso/laissez-faire": "0.12.4"
   },
   "scripts": [
-	  "index.js"
+    "index.js",
+    "read.js"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "development": {
+    "jkroso/serve": "1.2.3",
+    "visionmedia/mocha": "1.9.0",
+    "chaijs/chai": "1.6.1"
+  }
 }
