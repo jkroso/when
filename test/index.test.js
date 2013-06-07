@@ -2,6 +2,7 @@
 var Promise = require('laissez-faire/full')
   , decorate = require('../decorate')
 	, coerce = require('../coerce')
+	, read = require('../read')
 	, chai = require('./chai')
 	, when = require('..')
 
@@ -15,29 +16,29 @@ function delay(e, v){
 	return p
 }
 
-describe('when(value, onValue, onError)', function () {
+describe('read(value, onValue, onError)', function () {
 	it('should call the onValue function with the value', function () {
-		when(true, function (value) {
+		read(true, function (value) {
 			value.should.equal(true)
 		})
 	})
 
 	it('should handle fulfilled promises', function (done) {
-		when(new Promise().write(1), function (value) {
+		read(new Promise().write(1), function (value) {
 			value.should.equal(1)
 			done()
 		})
 	})
 
 	it('should handle broken promises', function (done) {
-		when(new Promise().error(1), null, function (value) {
+		read(new Promise().error(1), null, function (value) {
 			value.should.equal(1)
 			done()
 		})
 	})
 
 	it('should handle untrusted promises', function (done) {
-		when({then: function (fn) {
+		read({then: function (fn) {
 			setTimeout(function(){
 				fn(true)
 			}, 0)
@@ -170,5 +171,32 @@ describe('decorate(ƒ)', function(){
 				done()
 			})
 		})
+	})
+})
+
+describe('when(promise, onValue, onError)', function(){
+	var promise
+	beforeEach(function(){
+		promise = new Promise
+	})
+
+	it('should create a new promise', function(done){
+		when(promise, function(v){
+			v.should.equal(2)
+			return v + 1
+		}).then(function(v){
+			v.should.equal(3)
+			done()
+		})
+		promise.write(2)
+	})
+
+	it('should propagate rejection', function(done){
+		when(promise).then(null, function(e){
+			expect(e).to.be.an.instanceOf(Error)
+				.and.to.have.property('message', 'fail')
+			done()
+		})
+		promise.error(new Error('fail'))
 	})
 })

@@ -1,7 +1,7 @@
 
 # when
 
-  access a value which might be within a promise
+  handle promises
 
 ## Getting Started
 
@@ -18,10 +18,15 @@ var when = require('when')
 ## API
 
   - [when()](#whenvalueanyonvaluefunctiononerrorfunction)
+  - [read()](#readvalueanyonvaluefunctiononerrorfunction)
   - [decorate()](#decoratefunction)
   - [coerce()](#coercevalueany)
 
-### when(value:any, onValue:Function, onError:Function)
+### when(promise:Promise, onValue:Function, onError:Function)
+
+  create a new Promise whos eventual value is derived from the value of `promise`. Basically this is an unbound version of the `then` method found on most promise implementations.
+
+### read(value:any, onValue:Function, onError:Function)
 
   read the value of `value` even if its within a promise
 

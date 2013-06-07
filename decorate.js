@@ -2,7 +2,7 @@
 var Promise = require('laissez-faire/full')
   , rejected = Promise.rejected
   , coerce = require('./coerce')
-  , when = require('./')
+  , read = require('./read')
 
 /**
  * decorate `ƒ` so it can receive promised arguments
@@ -20,14 +20,14 @@ module.exports = function(ƒ){
 				var promise = new Promise
 				var next = function(value){
 					args[len] = value
-					if (len) return when(args[--len], next, fail)
+					if (len) return read(args[--len], next, fail)
 					try {
 						value = ƒ.apply(this, args)
 					} catch (e) {
 						promise.error(e)
 						return
 					}
-					when(value, function(value){
+					read(value, function(value){
 						promise.write(value)
 					}, fail)
 				}

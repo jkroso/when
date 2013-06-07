@@ -1,7 +1,7 @@
 {
   "name": "when",
   "version": "2.0.0",
-  "description": "access a value which might be within a promise",
+  "description": "handle promises",
   "dependencies": {
     "laissez-faire": "~0.12.4"
   },
