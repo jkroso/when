@@ -8,7 +8,7 @@
     "promise"
   ],
   "dependencies": {
-    "jkroso/laissez-faire": "0.12.4"
+    "jkroso/laissez-faire": "0.12.5"
   },
   "scripts": [
     "index.js",
