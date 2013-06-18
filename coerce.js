@@ -1,20 +1,23 @@
 
-var Promise = require('laissez-faire/full')
-var wrap = Promise.fulfilled
-
+var Result = require('result')
+  , resultType = Result.type
+  , wrap = Result.wrap
 
 /**
- * coerce `value` to a trusted promise
+ * coerce `value` to a trusted Result
  *
- * @param {any} value
- * @return {Promise}
+ * @param {x} value
+ * @return {Result}
  */
 
 module.exports = function(value){
-	if (!value) return wrap(value)
-	if (typeof value.then != 'function') return wrap(value)
-	if (value instanceof Promise) return value
-	var p = new Promise
-	value.then(function(v){ p.write(v) }, function(e){ p.error(e) })
-	return p
+	if (value && value instanceof resultType) {
+		if (value instanceof Result) return value
+		var result = new Result
+		value.read(
+			function(v){ result.write(v) },
+			function(e){ result.error(e) })
+		return result
+	}
+	return wrap(value)
 }

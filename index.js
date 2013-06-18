@@ -1,20 +1,21 @@
 
-var Promise = require('laissez-faire/full')
-var read = require('./read')
+var Result = require('result')
+  , resultType = Result.type
+  , read = require('./read')
 
 /**
- * create a new Promise whos eventual value is
- * derived from the value of `promise`
+ * create a new Result whos value is
+ * derived from the value of `result`
  * 
- * @param {Promise} promise
+ * @param {Result} result
  * @param {Function} onValue
  * @param {Function} onError
- * @return {Promise}
+ * @return {Result}
  */
 
-module.exports = function(promise, onValue, onError){
-	var next = new Promise
-	read(promise,
+module.exports = function(result, onValue, onError){
+	var next = new Result
+	read(result,
 		handle(next, onValue, 'write'),
 		handle(next, onError, 'error'))
 	return next
@@ -27,7 +28,7 @@ function handle(next, handler, defoult){
 		try { var ret = handler(x) }
 		catch (e) { return next.error(e) }
 
-		if (ret instanceof Promise) {
+		if (ret instanceof resultType) {
 			return ret.read(
 				function(v){ next.write(v) },
 				function(e){ next.error(e) })

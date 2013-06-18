@@ -2,9 +2,7 @@
   "name": "when",
   "version": "2.0.0",
   "description": "handle promises",
-  "dependencies": {
-    "laissez-faire": "~0.12.4"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/jkroso/when.git"

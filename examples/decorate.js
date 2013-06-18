@@ -1,12 +1,12 @@
 
-var Promise = require('laissez-faire/full')
-  , decorate = require('../decorate')
+var decorate = require('../decorate')
   , call = Function.prototype.call
   , filter = decorate(call.bind([].filter))
   , each = decorate(call.bind([].forEach))
+  , Result = require('result')
   , http = require('http')
 
-var components = new Promise
+var components = new Result
 
 http.get('http://component.io/components/all', function(res){
 	var buf = ''

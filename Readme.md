@@ -1,7 +1,7 @@
 
 # when
 
-  handle promises
+  handle Results
 
 ## Getting Started
 
@@ -22,21 +22,21 @@ var when = require('when')
   - [decorate()](#decoratefunction)
   - [coerce()](#coercevalueany)
 
-### when(promise:Promise, onValue:Function, onError:Function)
+### when(result:Result, onValue:Function, onError:Function)
 
-  create a new Promise whos eventual value is derived from the value of `promise`. Basically this is an unbound version of the `then` method found on most promise implementations.
+  create a new Result whos eventual value is derived from the value of `result`.
 
 ### read(value:any, onValue:Function, onError:Function)
 
-  read the value of `value` even if its within a promise
+  read the value of `value` even if its within a Result
 
 ### decorate(ƒ:Function)
 
-  decorate `ƒ` so it can receive promised arguments
+  decorate `ƒ` so it can receive Results as arguments
 
 ### coerce(value:any)
 
-  coerce `value` to a trusted promise
+  coerce `value` to a trusted Result
 
 ## Running the tests
 

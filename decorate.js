@@ -1,14 +1,15 @@
 
-var Promise = require('laissez-faire/full')
-  , rejected = Promise.rejected
-  , coerce = require('./coerce')
+var coerce = require('./coerce')
   , read = require('./read')
+  , Result = require('result')
+  , resultType = Result.type
+  , failed = Result.failed
 
 /**
- * decorate `ƒ` so it can receive promised arguments
+ * decorate `ƒ` so it can receive Results as arguments
  * 
  * @param {Function} ƒ
- * @return {Promise}
+ * @return {Result}
  */
 
 module.exports = function(ƒ){
@@ -16,34 +17,30 @@ module.exports = function(ƒ){
 		var args = arguments
 		var len = args.length
 		while (len--) {
-			if (isPromise(args[len])) {
-				var promise = new Promise
+			if (args[len] instanceof resultType) {
+				var result = new Result
 				var next = function(value){
 					args[len] = value
 					if (len) return read(args[--len], next, fail)
 					try {
 						value = ƒ.apply(this, args)
 					} catch (e) {
-						promise.error(e)
+						result.error(e)
 						return
 					}
 					read(value, function(value){
-						promise.write(value)
+						result.write(value)
 					}, fail)
 				}
 				var fail = function(e){
-					promise.error(e)
+					result.error(e)
 				}
 				args[len].then(next, fail)
-				return promise
+				return result
 			}
 		}
-		try { promise = ƒ.apply(this, arguments) }
-		catch (e) { return rejected(e) }
-		return coerce(promise)
+		try { result = ƒ.apply(this, arguments) }
+		catch (e) { return failed(e) }
+		return coerce(result)
 	}
-}
-
-function isPromise(value){
-	return value && typeof value.then == 'function'
 }

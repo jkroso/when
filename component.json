@@ -1,14 +1,16 @@
 {
   "name": "when",
   "repo": "jkroso/when",
-  "description": "handle promises",
-  "version": "2.0.0",
+  "description": "handle Results",
+  "version": "3.0.0",
   "keywords": [
     "when",
-    "promise"
+    "promise",
+    "result"
   ],
   "dependencies": {
-    "jkroso/laissez-faire": "0.12.5"
+    "jkroso/result": "0.1.0",
+    "jkroso/result-core": "1.0.0"
   },
   "scripts": [
     "index.js",
@@ -18,8 +20,10 @@
   ],
   "license": "MIT",
   "development": {
-    "jkroso/serve": "1.2.3",
-    "visionmedia/mocha": "1.9.0",
-    "chaijs/chai": "1.6.1"
+    "jkroso/serve": "1.4.1",
+    "visionmedia/mocha": "1.11.0",
+    "chaijs/chai": "1.7.0",
+    "component/inherit": "0.0.2",
+    "chaijs/chai-spies": "0.5.1"
   }
 }
