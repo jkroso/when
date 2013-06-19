@@ -1,8 +1,8 @@
 
-var coerce = require('./coerce')
-  , read = require('./read')
+var ResType = require('result-core/type')
+  , coerce = require('./coerce')
   , Result = require('result')
-  , resultType = Result.type
+  , read = require('./read')
   , failed = Result.failed
 
 /**
@@ -17,7 +17,7 @@ module.exports = function(ƒ){
 		var args = arguments
 		var len = args.length
 		while (len--) {
-			if (args[len] instanceof resultType) {
+			if (args[len] instanceof ResType) {
 				var result = new Result
 				var next = function(value){
 					args[len] = value

@@ -1,6 +1,6 @@
 
-var Result = require('result')
-  , resultType = Result.type
+var ResType = require('result-core/type')
+  , Result = require('result')
   , wrap = Result.wrap
 
 /**
@@ -11,7 +11,7 @@ var Result = require('result')
  */
 
 module.exports = function(value){
-	if (value && value instanceof resultType) {
+	if (value instanceof ResType) {
 		if (value instanceof Result) return value
 		var result = new Result
 		value.read(

@@ -2,15 +2,15 @@
   "name": "when",
   "repo": "jkroso/when",
   "description": "handle Results",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "keywords": [
     "when",
     "promise",
     "result"
   ],
   "dependencies": {
-    "jkroso/result": "0.1.0",
-    "jkroso/result-core": "1.0.0"
+    "jkroso/result": "0.1.1",
+    "jkroso/result-core": "1.0.2"
   },
   "scripts": [
     "index.js",

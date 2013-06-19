@@ -1,6 +1,6 @@
 
-var Result = require('result')
-  , resultType = Result.type
+var ResType = require('result-core/type')
+  , Result = require('result')
   , read = require('./read')
 
 /**
@@ -28,7 +28,7 @@ function handle(next, handler, defoult){
 		try { var ret = handler(x) }
 		catch (e) { return next.error(e) }
 
-		if (ret instanceof resultType) {
+		if (ret instanceof ResType) {
 			return ret.read(
 				function(v){ next.write(v) },
 				function(e){ next.error(e) })
