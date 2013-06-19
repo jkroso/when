@@ -1,7 +1,7 @@
 
 var Result = require('result')
-  , Spec = Result.type
   , inherit = require('inherit')
+  , ResType = require('result-type')
   , decorate = require('../decorate')
 	, coerce = require('../coerce')
 	, read = require('../read')
@@ -24,7 +24,7 @@ function DummyResult(value){
 	}
 }
 
-inherit(DummyResult, Spec)
+inherit(DummyResult, ResType)
 
 var spy
 beforeEach(function(){

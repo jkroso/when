@@ -1,5 +1,5 @@
 
-var Result = require('result-core/type')
+var Result = require('result-type')
 
 /**
  * read the value of `value` even if its 

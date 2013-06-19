@@ -1,5 +1,5 @@
 
-var ResType = require('result-core/type')
+var ResType = require('result-type')
   , Result = require('result')
   , wrap = Result.wrap
 

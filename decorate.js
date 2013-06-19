@@ -1,5 +1,5 @@
 
-var ResType = require('result-core/type')
+var ResType = require('result-type')
   , coerce = require('./coerce')
   , Result = require('result')
   , read = require('./read')
