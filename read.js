@@ -11,7 +11,6 @@ var Result = require('result-type')
  */
 
 module.exports = function(value, onValue, onError){
-	if (!value) onValue(value)
-	else if (value instanceof Result) value.read(onValue, onError)
+	if (value instanceof Result) value.read(onValue, onError)
 	else onValue(value)
 }
