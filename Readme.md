@@ -21,6 +21,7 @@ var when = require('when')
   - [read()](#readvalueanyonvaluefunctiononerrorfunction)
   - [decorate()](#decoratefunction)
   - [coerce()](#coercevalueany)
+  - [apply()](#apply)
 
 ### when(result:Result, onValue:Function, onError:Function)
 
@@ -37,6 +38,16 @@ var when = require('when')
 ### coerce(value:any)
 
   coerce `value` to a trusted Result
+
+## apply()
+
+  sometimes decorating a function isn't practical in such cases in might be better to use apply. Apply comes to two variations. The main one treats the last argument as the one to call while the alternative uses the first argument
+
+```js
+apply.first(forEach, delayedArray(), function(item){
+  // I'm being run by forEach
+})
+```
 
 ## Running the tests
 
