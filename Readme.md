@@ -39,9 +39,9 @@ var when = require('when')
 
   coerce `value` to a trusted Result
 
-## apply()
+### apply()
 
-  sometimes decorating a function isn't practical in such cases in might be better to use apply. Apply comes to two variations. The main one treats the last argument as the one to call while the alternative uses the first argument
+  sometimes decorating a function isn't practical in such cases it might be better to use apply. Apply comes to two variations. The main one treats the last argument as the one to call while the alternative uses the first argument.
 
 ```js
 apply.first(forEach, delayedArray(), function(item){
