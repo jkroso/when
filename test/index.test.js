@@ -208,20 +208,38 @@ describe('apply', function(){
 	}
 	var arr = [1,2,3]
 
-	it('should apply `arr` to `fn`', function(done){
-		apply.plain(arr, fn)
-		apply(arr, fn).node(done)
+	it('should apply arguments to `fn`', function(done){
+		apply.plain(1,2,3,fn)
+		apply(1,2,3,fn).node(done)
 	})
 
 	it('should maintain `this`', function(done){
 		var context = {}
-		apply.call(context, arr, function(){
+		apply.call(context,1,2,3,function(){
 			this.should.equal(context)
 			fn.apply(null, arguments)
 		}).node(done)
 	})
 
 	it('should handle Result parameters', function(done){
-		apply(delay(arr), fn).node(done)
+		apply(delay(1),delay(2),Result.wrap(3),fn).node(done)
+	})
+
+	describe('apply.sexpr', function(){
+		it('should apply arguments to `fn`', function(done){
+			apply.sexpr(fn,1,2,3).node(done)
+		})
+
+		it('should maintain `this`', function(done){
+			var context = {}
+			apply.sexpr.call(context, function(){
+				this.should.equal(context)
+				fn.apply(null, arguments)
+			},1,2,3).node(done)
+		})
+
+		it('should handle Result parameters', function(done){
+			apply.sexpr(fn, delay(1), delay(2), Result.wrap(3)).node(done)
+		})
 	})
 })
