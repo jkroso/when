@@ -24,6 +24,7 @@
     "visionmedia/mocha": "1.11.0",
     "chaijs/chai": "1.7.0",
     "component/inherit": "0.0.2",
-    "chaijs/chai-spies": "0.5.1"
+    "chaijs/chai-spies": "0.5.1",
+    "vesln/b": "8c21b9c961254115b64a1d766793dc7bbcf587e1"
   }
 }

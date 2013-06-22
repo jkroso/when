@@ -19,4 +19,10 @@ node_modules: component.json
 clean:
 	rm -r node_modules
 
-.PHONY: clean serve test
+bench: node_modules
+	@node_modules/b/bin/bench \
+		--implementations bench/apply/implementations \
+		--cycles 10000 \
+		bench/apply
+
+.PHONY: clean serve test bench
