@@ -4,6 +4,7 @@ var Result = require('result')
   , ResType = require('result-type')
   , decorate = require('../decorate')
 	, coerce = require('../coerce')
+	, apply = require('../apply')
 	, read = require('../read')
 	, chai = require('./chai')
 	, when = require('..')
@@ -196,5 +197,31 @@ describe('when(Result, onValue, onError)', function(){
 			done()
 		})
 		result.error(new Error('fail'))
+	})
+})
+
+describe('apply', function(){
+	function fn(a,b,c){
+		a.should.equal(1)
+		b.should.equal(2)
+		c.should.equal(3)
+	}
+	var arr = [1,2,3]
+
+	it('should apply `arr` to `fn`', function(done){
+		apply.plain(arr, fn)
+		apply(arr, fn).node(done)
+	})
+
+	it('should maintain `this`', function(done){
+		var context = {}
+		apply.call(context, arr, function(){
+			this.should.equal(context)
+			fn.apply(null, arguments)
+		}).node(done)
+	})
+
+	it('should handle Result parameters', function(done){
+		apply(delay(arr), fn).node(done)
 	})
 })
