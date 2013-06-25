@@ -122,7 +122,8 @@ describe('decorate(ƒ)', function(){
 			this.text = txt
 			return this
 		})
-		new File('a', 'b').then(function(file){
+		new File('a', delay('b')).then(function(file){
+			file.should.be.an.instanceOf(File)
 			file.should.have.property('path', 'a')
 			file.should.have.property('text', 'b')
 		}).node(done)

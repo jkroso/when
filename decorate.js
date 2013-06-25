@@ -18,6 +18,7 @@ module.exports = function(ƒ){
 
 		// scan for Results
 		while (i--) if (arguments[i] instanceof ResType) {
+			var self = this
 			var args = arguments
 			var result = new Result
 			var fail = function(e){
@@ -28,7 +29,7 @@ module.exports = function(ƒ){
 				if (i) return read(args[--i], next, fail)
 
 				// run ƒ
-				try { value = ƒ.apply(this, args) }
+				try { value = ƒ.apply(self, args) }
 				catch (e) { return result.error(e)}
 
 				// write
