@@ -116,6 +116,18 @@ describe('decorate(ƒ)', function(){
 		).node(done)
 	})
 
+	it('should kinda work with constructors', function(done){
+		var File = decorate(function(path, txt){
+			this.path = path
+			this.text = txt
+			return this
+		})
+		new File('a', 'b').then(function(file){
+			file.should.have.property('path', 'a')
+			file.should.have.property('text', 'b')
+		}).node(done)
+	})
+
 	describe('Result returning `ƒ`', function(){
 		function fun(err, val){
 			if (err) return delay(err)
