@@ -2,20 +2,21 @@
   "name": "when",
   "repo": "jkroso/when",
   "description": "handle Results",
-  "version": "3.2.1",
+  "version": "3.2.3",
   "keywords": [
     "when",
     "promise",
     "result"
   ],
   "dependencies": {
-    "jkroso/result": "0.3.0",
+    "jkroso/result": "0.3.1",
     "jkroso/result-type": "1.0.0"
   },
   "scripts": [
-    "index.js",
-    "coerce.js",
     "read.js",
+    "index.js",
+    "apply.js",
+    "coerce.js",
     "decorate.js"
   ],
   "license": "MIT",
