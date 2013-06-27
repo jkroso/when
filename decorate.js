@@ -33,13 +33,14 @@ module.exports = function(ƒ){
 				try { value = ƒ.apply(self, args) }
 				catch (e) { return result.error(e)}
 
-				// write
-				if (value instanceof ResType) {
+				if (value === undefined && self instanceof decorated) {
+					result.write(self)
+				} else if (value instanceof ResType) {
 					value.read(function(value){
 						result.write(value)
 					}, fail)
 				} else {
-					result.write(value || self instanceof decorated ? self : value)
+					result.write(value)
 				}
 			}
 			args[i].read(next, fail)
@@ -49,7 +50,9 @@ module.exports = function(ƒ){
 		try { result = ƒ.apply(this, arguments) }
 		catch (e) { return failed(e) }
 		// used as a constructor
-		if (!result && this instanceof decorated) return wrap(this)
+		if (result === undefined && this instanceof decorated) {
+			return wrap(this)
+		}
 		return coerce(result)
 	}
 }

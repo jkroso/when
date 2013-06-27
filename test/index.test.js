@@ -116,6 +116,21 @@ describe('decorate(ƒ)', function(){
 		).node(done)
 	})
 
+	describe('correct return value', function(){
+		var retValue = {}
+		it('when sync', function(done){
+			decorate(identity)(retValue).then(function(val){
+				val.should.equal(retValue)
+			}).node(done)
+		})
+		
+		it('when delayed', function(done){
+			decorate(identity)(delay(retValue)).then(function(val){
+				val.should.equal(retValue)
+			}).node(done)
+		})
+	})
+
 	describe('with constructors', function(){
 		var File = decorate(function(path, txt){
 			this.path = path
@@ -262,3 +277,5 @@ describe('apply', function(){
 		})
 	})
 })
+
+function identity(a){ return a }
