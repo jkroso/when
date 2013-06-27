@@ -116,17 +116,23 @@ describe('decorate(ƒ)', function(){
 		).node(done)
 	})
 
-	it('should kinda work with constructors', function(done){
+	describe('with constructors', function(){
 		var File = decorate(function(path, txt){
 			this.path = path
 			this.text = txt
-			return this
 		})
-		new File('a', delay('b')).then(function(file){
+		function isFile(file){
 			file.should.be.an.instanceOf(File)
 			file.should.have.property('path', 'a')
 			file.should.have.property('text', 'b')
-		}).node(done)
+		}
+		it('delayed parameters', function(done){
+			new File('a', delay('b')).then(isFile).node(done)
+		})
+
+		it('normal parameters', function(done){
+			new File('a', 'b').then(isFile).node(done)
+		})
 	})
 
 	describe('Result returning `ƒ`', function(){

@@ -4,6 +4,7 @@ var ResType = require('result-type')
   , Result = require('result')
   , read = require('./read')
   , failed = Result.failed
+  , wrap = Result.wrap
 
 /**
  * decorate `ƒ` so it can receive Results as arguments
@@ -13,7 +14,7 @@ var ResType = require('result-type')
  */
 
 module.exports = function(ƒ){
-	return function(){
+	return function decorated(){
 		var i = arguments.length
 
 		// scan for Results
@@ -38,7 +39,7 @@ module.exports = function(ƒ){
 						result.write(value)
 					}, fail)
 				} else {
-					result.write(value)
+					result.write(value || self instanceof decorated ? self : value)
 				}
 			}
 			args[i].read(next, fail)
@@ -47,6 +48,8 @@ module.exports = function(ƒ){
 
 		try { result = ƒ.apply(this, arguments) }
 		catch (e) { return failed(e) }
+		// used as a constructor
+		if (!result && this instanceof decorated) return wrap(this)
 		return coerce(result)
 	}
 }
