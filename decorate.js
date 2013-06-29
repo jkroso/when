@@ -14,7 +14,9 @@ var ResType = require('result-type')
  */
 
 module.exports = function(ƒ){
-	return function decorated(){
+	decorated.prototype = ƒ.prototype
+	decorated.plain = ƒ
+	function decorated(){
 		var i = arguments.length
 
 		// scan for Results
@@ -55,4 +57,5 @@ module.exports = function(ƒ){
 		}
 		return coerce(result)
 	}
+	return decorated
 }

@@ -132,10 +132,11 @@ describe('decorate(ƒ)', function(){
 	})
 
 	describe('with constructors', function(){
-		var File = decorate(function(path, txt){
+		var File = decorate(file)
+		function file(path, txt){
 			this.path = path
 			this.text = txt
-		})
+		}
 		function isFile(file){
 			file.should.be.an.instanceOf(File)
 			file.should.have.property('path', 'a')
@@ -147,6 +148,10 @@ describe('decorate(ƒ)', function(){
 
 		it('normal parameters', function(done){
 			new File('a', 'b').then(isFile).node(done)
+		})
+
+		it('should share prototypes', function(){
+			file.prototype.should.equal(File.prototype)
 		})
 	})
 
