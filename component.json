@@ -9,7 +9,7 @@
     "result"
   ],
   "dependencies": {
-    "jkroso/result": "0.3.1",
+    "jkroso/result": "0.3.2",
     "jkroso/result-type": "1.0.0"
   },
   "scripts": [
