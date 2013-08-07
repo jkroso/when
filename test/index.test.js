@@ -213,7 +213,7 @@ describe('decorate(ƒ)', function(){
 	})
 })
 
-describe('when(Result, onValue, onError)', function(){
+describe('when(result, onValue, onError)', function(){
 	var result
 	beforeEach(function(){
 		result = new Result
@@ -236,6 +236,21 @@ describe('when(Result, onValue, onError)', function(){
 			done()
 		})
 		result.error(new Error('fail'))
+	})
+
+	it('should return a plain value if it can', function(){
+		when(1, function(value){
+			value.should.equal(1)
+			return value + 1
+		}).should.equal(2)
+	})
+
+	it('should catch errors on sync operations', function(done){
+		when(1, function(){
+			throw new Error('fail')
+		}).then(null, function(e){
+			done()
+		})
 	})
 })
 

@@ -1,7 +1,6 @@
 
 var ResType = require('result-type')
-  , Result = require('result')
-  , read = require('./read')
+var Result = require('result')
 
 /**
  * create a new Result whos value is
@@ -14,11 +13,16 @@ var ResType = require('result-type')
  */
 
 module.exports = function(result, onValue, onError){
-	var next = new Result
-	read(result,
-		handle(next, onValue, 'write'),
-		handle(next, onError, 'error'))
-	return next
+	if (result instanceof ResType) {
+		var next = new Result
+		result.read(
+			handle(next, onValue, 'write'),
+			handle(next, onError, 'error'))
+		return next
+	} else {
+		try { return onValue(result) }
+		catch (e) { return Result.failed(e) }
+	}
 }
 
 function handle(next, handler, defoult){
@@ -29,11 +33,11 @@ function handle(next, handler, defoult){
 		catch (e) { return next.error(e) }
 
 		if (ret instanceof ResType) {
-			return ret.read(
+			ret.read(
 				function(v){ next.write(v) },
 				function(e){ next.error(e) })
+		} else {
+			next.write(ret)
 		}
-
-		next.write(ret)
 	}
 }
