@@ -1,9 +1,6 @@
 
 var decorate = require('./decorate')
-  , call = Function.prototype.call
-
-module.exports = decorate(apply) 
-module.exports.plain = apply
+var call = Function.call
 
 /**
  * apply arguments to the last argument
@@ -25,9 +22,12 @@ function apply(){
  * @return {x}
  */
 
-module.exports.sexpr =
-module.exports.first = decorate(function(fn){
+function sexpr(fn){
 	var ƒ = fn
-	fn = this
+	arguments[0] = this
 	return call.apply(ƒ, arguments)
-})
+}
+
+module.exports = decorate(apply) 
+module.exports.first = 
+module.exports.sexpr = decorate(sexpr)
