@@ -252,6 +252,13 @@ describe('when(result, onValue, onError)', function(){
 			done()
 		})
 	})
+
+	it('should forward `this` to the handlers', function(done){
+		when.call(done, delay(1), function(one){
+			one.should.equal(1)
+			this.should.equal(done)
+		}).node(done)
+	})
 })
 
 describe('apply', function(){
