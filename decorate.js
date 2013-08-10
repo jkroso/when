@@ -10,7 +10,7 @@ var ResType = require('result-type')
  * decorate `ƒ` so it can receive Results as arguments
  * 
  * @param {Function} ƒ
- * @return {Result}
+ * @return {Function}
  */
 
 module.exports = function(ƒ){
@@ -52,10 +52,9 @@ module.exports = function(ƒ){
 		try { result = ƒ.apply(this, arguments) }
 		catch (e) { return failed(e) }
 		// used as a constructor
-		if (result === undefined && this instanceof decorated) {
-			return wrap(this)
-		}
-		return coerce(result)
+		return result === undefined && this instanceof decorated
+			? this
+			: result
 	}
 	return decorated
 }
