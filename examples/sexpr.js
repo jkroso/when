@@ -8,21 +8,20 @@
  * starts to look a bit like lisp but hey it a good option to have
  */
 
-var s = require('../apply').sexpr
-	, call = Function.prototype.call
-  , filter = call.bind([].filter)
-  , each = call.bind([].forEach)
+var filter = Function.call.bind([].filter)
+  , each = Function.call.bind([].forEach)
   , Result = require('result')
+  , s = require('../sexpr')
   , http = require('http')
 
 var components = new Result
 
 http.get('http://component.io/components/all', function(res){
-	var buf = ''
+	var json = ''
 	res.on('readable', function(){
-		buf += res.read() || ''
+		json += res.read() || ''
 	}).on('end', function(){
-		try { var json = JSON.parse(buf) }
+		try { json = JSON.parse(json) }
 		catch (e) { return components.error(e) }
 		components.write(json)
 	})

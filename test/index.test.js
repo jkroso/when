@@ -4,6 +4,7 @@ var Result = require('result')
   , inherit = require('inherit')
 	, coerce = require('../coerce')
 	, apply = require('../apply')
+	, sexpr = require('../sexpr')
   , lift = require('../lift')
 	, read = require('../read')
 	, chai = require('./chai')
@@ -257,40 +258,43 @@ describe('when(result, onValue, onError)', function(){
 	})
 })
 
-describe('apply', function(){
+describe('decorating expressions', function(){
 	function fn(a,b,c){
 		a.should.equal(1)
 		b.should.equal(2)
 		c.should.equal(3)
 	}
-	var arr = [1,2,3]
 
-	it('should apply arguments to `fn`', function(){
-		apply.plain(1,2,3,fn)
-		apply(1,2,3,fn)
-	})
+	describe('apply', function(){
+		var arr = [1,2,3]
 
-	it('should maintain `this`', function(done){
-		var context = {}
-		apply.call(context,1,2,3,function(){
-			this.should.equal(context)
-			fn.apply(null, arguments)
-			done()
-		})
-	})
-
-	it('should handle Result parameters', function(done){
-		apply(delay(1),delay(2),Result.wrap(3),fn).node(done)
-	})
-
-	describe('apply.sexpr', function(){
 		it('should apply arguments to `fn`', function(){
-			apply.sexpr(fn,1,2,3)
+			apply.plain(1,2,3,fn)
+			apply(1,2,3,fn)
 		})
 
 		it('should maintain `this`', function(done){
 			var context = {}
-			apply.sexpr.call(context, function(){
+			apply.call(context,1,2,3,function(){
+				this.should.equal(context)
+				fn.apply(null, arguments)
+				done()
+			})
+		})
+
+		it('should handle Result parameters', function(done){
+			apply(delay(1),delay(2),Result.wrap(3),fn).node(done)
+		})
+	})
+
+	describe('sexpr', function(){
+		it('should apply arguments to `fn`', function(){
+			sexpr(fn,1,2,3)
+		})
+
+		it('should maintain `this`', function(done){
+			var context = {}
+			sexpr.call(context, function(){
 				this.should.equal(context)
 				fn.apply(null, arguments)
 				done()
@@ -298,7 +302,7 @@ describe('apply', function(){
 		})
 
 		it('should handle Result parameters', function(done){
-			apply.sexpr(fn, delay(1), delay(2), Result.wrap(3)).node(done)
+			sexpr(fn, delay(1), delay(2), Result.wrap(3)).node(done)
 		})
 	})
 })
