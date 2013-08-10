@@ -1,5 +1,5 @@
 
-var decorate = require('./decorate')
+var lift = require('./lift')
 var call = Function.call
 
 /**
@@ -34,6 +34,6 @@ function sexpr(fn){
 	}
 }
 
-module.exports = decorate(apply) 
+module.exports = lift(apply) 
 module.exports.first = 
-module.exports.sexpr = decorate(sexpr)
+module.exports.sexpr = lift(sexpr)

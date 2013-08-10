@@ -1,10 +1,10 @@
 
 var Result = require('result')
-  , inherit = require('inherit')
   , ResType = require('result-type')
-  , decorate = require('../decorate')
+  , inherit = require('inherit')
 	, coerce = require('../coerce')
 	, apply = require('../apply')
+  , lift = require('../lift')
 	, read = require('../read')
 	, chai = require('./chai')
 	, when = require('..')
@@ -76,32 +76,30 @@ describe('trusted(value)', function () {
 	})
 })
 
-describe('decorate(ƒ)', function(){
-	function fun(num, string, fn){
-		num.should.be.a('number')
-		string.should.be.a('string')
-		fn.should.be.a('function')
-	}
-
-	it('should become a Result returning function', function(){
-		var ƒ = decorate(Math.pow)
-		ƒ.should.be.a('function')
-		var ret = ƒ(2, 3)
-		ret.should.be.an.instanceOf(Result)
-		ret.read(spy)
-		spy.should.have.been.called.with(8)
+describe('lift(ƒ)', function(){
+	var ƒ
+	beforeEach(function(){
+		ƒ = chai.spy(function(num, string, fn){
+			num.should.be.a('number')
+			string.should.be.a('string')
+			fn.should.be.a('function')
+		})
 	})
 
-	it('should resolve arguments before calling `ƒ`', function(done){
-		decorate(fun)(
-			new Result().write(4),
-			new Result().write('hello'),
-			new Result().write(function(){})
-		).node(done)
+	it('should only return Results if it has to', function(){
+		lift(Math.pow)(2, 3).should.equal(8)
+	})
+
+	it('should resolve arguments before calling `ƒ`', function(){
+		lift(ƒ)(
+			Result.wrap(4),
+			Result.wrap('hello'),
+			Result.wrap(function(){}))
+		ƒ.should.have.been.called(1)
 	})
 
 	it('should handle delayed results', function(done){
-		decorate(fun)(
+		lift(ƒ)(
 			delay(4),
 			delay('hello'),
 			delay(function(){})
@@ -109,7 +107,7 @@ describe('decorate(ƒ)', function(){
 	})
 
 	it('should handle mixed results and values', function(done){
-		decorate(fun)(
+		lift(ƒ)(
 			delay(4),
 			new Result().write('hello'),
 			function(){}
@@ -118,21 +116,19 @@ describe('decorate(ƒ)', function(){
 
 	describe('correct return value', function(){
 		var retValue = {}
-		it('when sync', function(done){
-			decorate(identity)(retValue).then(function(val){
-				val.should.equal(retValue)
-			}).node(done)
+		it('when sync', function(){
+			lift(identity)(retValue).should.equal(retValue)
 		})
 		
 		it('when delayed', function(done){
-			decorate(identity)(delay(retValue)).then(function(val){
+			lift(identity)(delay(retValue)).then(function(val){
 				val.should.equal(retValue)
 			}).node(done)
 		})
 	})
 
 	describe('with constructors', function(){
-		var File = decorate(file)
+		var File = lift(file)
 		function file(path, txt){
 			this.path = path
 			this.text = txt
@@ -146,8 +142,8 @@ describe('decorate(ƒ)', function(){
 			new File('a', delay('b')).then(isFile).node(done)
 		})
 
-		it('normal parameters', function(done){
-			new File('a', 'b').then(isFile).node(done)
+		it('normal parameters', function(){
+			isFile(new File('a', 'b'))
 		})
 
 		it('should share prototypes', function(){
@@ -160,8 +156,8 @@ describe('decorate(ƒ)', function(){
 			if (err) return delay(err)
 			return delay(null, val)
 		}
-		it('should be able to decorate a Result returning `ƒ`', function(done){
-			decorate(function(a, b){
+		it('should be able to lift a Result returning `ƒ`', function(done){
+			lift(function(a, b){
 				return delay([a, b])
 			})(
 				delay(1),
@@ -174,7 +170,7 @@ describe('decorate(ƒ)', function(){
 
 	describe('error handling', function(){
 		it('should catch synchronous errors', function(done){
-			decorate(function(){
+			lift(function(){
 				throw new Error('fail')
 			})().then(null, function(e){
 				expect(e).to.have.property('message', 'fail')
@@ -183,7 +179,7 @@ describe('decorate(ƒ)', function(){
 		})
 
 		it('should catch synchronous errors after a delay', function(done){
-			decorate(function(){
+			lift(function(){
 				throw new Error('fail')
 			})(delay(1)).then(null, function(e){
 				expect(e).to.have.property('message', 'fail')
@@ -192,7 +188,7 @@ describe('decorate(ƒ)', function(){
 		})
 
 		it('should catch async errors', function(done){
-			decorate(function(){
+			lift(function(){
 				return delay(new Error('fail'))
 			})().then(null, function(e){
 				expect(e).to.have.property('message', 'fail')
@@ -201,7 +197,7 @@ describe('decorate(ƒ)', function(){
 		})
 
 		it('should catch failing arguments', function(done){
-			decorate(function(a, b){})(
+			lift(function(a, b){})(
 				delay(new Error('fail')),
 				delay(4),
 				function(){}
@@ -269,9 +265,9 @@ describe('apply', function(){
 	}
 	var arr = [1,2,3]
 
-	it('should apply arguments to `fn`', function(done){
+	it('should apply arguments to `fn`', function(){
 		apply.plain(1,2,3,fn)
-		apply(1,2,3,fn).node(done)
+		apply(1,2,3,fn)
 	})
 
 	it('should maintain `this`', function(done){
@@ -279,7 +275,8 @@ describe('apply', function(){
 		apply.call(context,1,2,3,function(){
 			this.should.equal(context)
 			fn.apply(null, arguments)
-		}).node(done)
+			done()
+		})
 	})
 
 	it('should handle Result parameters', function(done){
@@ -287,8 +284,8 @@ describe('apply', function(){
 	})
 
 	describe('apply.sexpr', function(){
-		it('should apply arguments to `fn`', function(done){
-			apply.sexpr(fn,1,2,3).node(done)
+		it('should apply arguments to `fn`', function(){
+			apply.sexpr(fn,1,2,3)
 		})
 
 		it('should maintain `this`', function(done){
@@ -296,7 +293,8 @@ describe('apply', function(){
 			apply.sexpr.call(context, function(){
 				this.should.equal(context)
 				fn.apply(null, arguments)
-			},1,2,3).node(done)
+				done()
+			},1,2,3)
 		})
 
 		it('should handle Result parameters', function(done){

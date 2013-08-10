@@ -1,19 +1,18 @@
 
-var decorate = require('../decorate')
-  , call = Function.prototype.call
-  , filter = decorate(call.bind([].filter))
-  , each = decorate(call.bind([].forEach))
+var lift = require('../lift')
+  , filter = lift(Function.call.bind([].filter))
+  , each = lift(Function.call.bind([].forEach))
   , Result = require('result')
   , http = require('http')
 
 var components = new Result
 
 http.get('http://component.io/components/all', function(res){
-	var buf = ''
+	var json = ''
 	res.on('readable', function(){
-		buf += res.read() || ''
+		json += res.read() || ''
 	}).on('end', function(){
-		try { var json = JSON.parse(buf) }
+		try { json = JSON.parse(json) }
 		catch (e) { return components.error(e) }
 		components.write(json)
 	})
