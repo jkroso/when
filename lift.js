@@ -14,7 +14,7 @@ var ResType = require('result-type')
  */
 
 module.exports = function(ƒ){
-	decorated.prototype = ƒ.prototype
+	if (ƒ.prototype) decorated.prototype = ƒ.prototype
 	decorated.plain = ƒ
 	function decorated(){
 		var i = arguments.length
