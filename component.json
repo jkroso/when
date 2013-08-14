@@ -2,7 +2,7 @@
   "name": "when",
   "repo": "jkroso/when",
   "description": "handle Results",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "keywords": [
     "when",
     "promise",
@@ -15,17 +15,14 @@
   "scripts": [
     "read.js",
     "index.js",
-    "apply.js",
-    "coerce.js",
-    "lift.js"
+    "coerce.js"
   ],
   "license": "MIT",
   "development": {
-    "jkroso/serve": "1.4.6",
-    "visionmedia/mocha": "1.12.0",
     "chaijs/chai": "1.7.2",
+    "jkroso/serve": "1.4.8",
     "component/inherit": "0.0.2",
     "chaijs/chai-spies": "0.5.1",
-    "vesln/b": "8c21b9c961254115b64a1d766793dc7bbcf587e1"
+    "visionmedia/mocha": "1.12.0"
   }
 }

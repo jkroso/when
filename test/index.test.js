@@ -2,13 +2,10 @@
 var Result = require('result')
   , ResType = require('result-type')
   , inherit = require('inherit')
-	, coerce = require('../coerce')
-	, apply = require('../apply')
-	, sexpr = require('../sexpr')
-  , lift = require('../lift')
-	, read = require('../read')
-	, chai = require('./chai')
-	, when = require('..')
+  , coerce = require('../coerce')
+  , read = require('../read')
+  , chai = require('./chai')
+  , when = require('..')
 
 function delay(value){
 	var result = new Result
@@ -77,139 +74,6 @@ describe('trusted(value)', function () {
 	})
 })
 
-describe('lift(ƒ)', function(){
-	var ƒ
-	beforeEach(function(){
-		ƒ = chai.spy(function(num, string, fn){
-			num.should.be.a('number')
-			string.should.be.a('string')
-			fn.should.be.a('function')
-		})
-	})
-
-	it('should only return Results if it has to', function(){
-		lift(Math.pow)(2, 3).should.equal(8)
-	})
-
-	it('should resolve arguments before calling `ƒ`', function(){
-		lift(ƒ)(
-			Result.wrap(4),
-			Result.wrap('hello'),
-			Result.wrap(function(){}))
-		ƒ.should.have.been.called(1)
-	})
-
-	it('should handle delayed results', function(done){
-		lift(ƒ)(
-			delay(4),
-			delay('hello'),
-			delay(function(){})
-		).node(done)
-	})
-
-	it('should handle mixed results and values', function(done){
-		lift(ƒ)(
-			delay(4),
-			new Result().write('hello'),
-			function(){}
-		).node(done)
-	})
-
-	describe('correct return value', function(){
-		var retValue = {}
-		it('when sync', function(){
-			lift(identity)(retValue).should.equal(retValue)
-		})
-		
-		it('when delayed', function(done){
-			lift(identity)(delay(retValue)).then(function(val){
-				val.should.equal(retValue)
-			}).node(done)
-		})
-	})
-
-	describe('with constructors', function(){
-		var File = lift(file)
-		function file(path, txt){
-			this.path = path
-			this.text = txt
-		}
-		function isFile(file){
-			file.should.be.an.instanceOf(File)
-			file.should.have.property('path', 'a')
-			file.should.have.property('text', 'b')
-		}
-		it('delayed parameters', function(done){
-			new File('a', delay('b')).then(isFile).node(done)
-		})
-
-		it('normal parameters', function(){
-			isFile(new File('a', 'b'))
-		})
-
-		it('should share prototypes', function(){
-			file.prototype.should.equal(File.prototype)
-		})
-	})
-
-	describe('Result returning `ƒ`', function(){
-		function fun(err, val){
-			if (err) return delay(err)
-			return delay(null, val)
-		}
-		it('should be able to lift a Result returning `ƒ`', function(done){
-			lift(function(a, b){
-				return delay([a, b])
-			})(
-				delay(1),
-				new Result().write('hello')
-			).then(function(val){
-				val.should.eql([1, 'hello'])
-			}).node(done)
-		})
-	})
-
-	describe('error handling', function(){
-		it('should catch synchronous errors', function(done){
-			lift(function(){
-				throw new Error('fail')
-			})().then(null, function(e){
-				expect(e).to.have.property('message', 'fail')
-				done()
-			})
-		})
-
-		it('should catch synchronous errors after a delay', function(done){
-			lift(function(){
-				throw new Error('fail')
-			})(delay(1)).then(null, function(e){
-				expect(e).to.have.property('message', 'fail')
-				done()
-			})
-		})
-
-		it('should catch async errors', function(done){
-			lift(function(){
-				return delay(new Error('fail'))
-			})().then(null, function(e){
-				expect(e).to.have.property('message', 'fail')
-				done()
-			})
-		})
-
-		it('should catch failing arguments', function(done){
-			lift(function(a, b){})(
-				delay(new Error('fail')),
-				delay(4),
-				function(){}
-			).then(null, function(e){
-				expect(e).to.have.property('message', 'fail')
-				done()
-			})
-		})
-	})
-})
-
 describe('when(result, onValue, onError)', function(){
 	var result
 	beforeEach(function(){
@@ -257,54 +121,3 @@ describe('when(result, onValue, onError)', function(){
 		}).node(done)
 	})
 })
-
-describe('decorating expressions', function(){
-	function fn(a,b,c){
-		a.should.equal(1)
-		b.should.equal(2)
-		c.should.equal(3)
-	}
-
-	describe('apply', function(){
-		var arr = [1,2,3]
-
-		it('should apply arguments to `fn`', function(){
-			apply.plain(1,2,3,fn)
-			apply(1,2,3,fn)
-		})
-
-		it('should maintain `this`', function(done){
-			var context = {}
-			apply.call(context,1,2,3,function(){
-				this.should.equal(context)
-				fn.apply(null, arguments)
-				done()
-			})
-		})
-
-		it('should handle Result parameters', function(done){
-			apply(delay(1),delay(2),Result.wrap(3),fn).node(done)
-		})
-	})
-
-	describe('sexpr', function(){
-		it('should apply arguments to `fn`', function(){
-			sexpr(fn,1,2,3)
-		})
-
-		it('should maintain `this`', function(done){
-			var context = {}
-			sexpr.call(context, function(){
-				this.should.equal(context)
-				fn.apply(null, arguments)
-				done()
-			},1,2,3)
-		})
-
-		it('should handle Result parameters', function(done){
-			sexpr(fn, delay(1), delay(2), Result.wrap(3)).node(done)
-		})
-	})
-})
-
-function identity(a){ return a }
