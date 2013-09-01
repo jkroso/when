@@ -1,20 +1,11 @@
 
+var ResType = require('result-type')
+var coerce = require('../coerce')
+var inherit = require('inherit')
 var Result = require('result')
-  , ResType = require('result-type')
-  , inherit = require('inherit')
-  , coerce = require('../coerce')
-  , read = require('../read')
-  , chai = require('./chai')
-  , when = require('..')
-
-function delay(value){
-	var result = new Result
-	setTimeout(function () {
-		if (value instanceof Error) result.error(value)
-		else result.write(value)
-	}, Math.random() * 10)
-	return result
-}
+var read = require('../read')
+var chai = require('./chai')
+var when = require('..')
 
 function DummyResult(value){
 	this.read = function(onValue, onError){
@@ -121,3 +112,12 @@ describe('when(result, onValue, onError)', function(){
 		}).node(done)
 	})
 })
+
+function delay(value){
+	var result = new Result
+	setTimeout(function () {
+		if (value instanceof Error) result.error(value)
+		else result.write(value)
+	}, Math.random() * 10)
+	return result
+}

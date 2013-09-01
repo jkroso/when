@@ -1,7 +1,7 @@
 
 var ResType = require('result-type')
-  , Result = require('result')
-  , wrap = Result.wrap
+var Result = require('result')
+var wrap = Result.wrap
 
 /**
  * coerce `value` to a trusted Result
