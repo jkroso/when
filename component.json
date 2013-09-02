@@ -9,20 +9,16 @@
     "result"
   ],
   "dependencies": {
-    "jkroso/result": "0.3.3",
+    "jkroso/result": "0.3.4",
     "jkroso/result-type": "1.0.0"
   },
   "scripts": [
-    "read.js",
-    "index.js",
-    "coerce.js"
+    "index.js"
   ],
   "license": "MIT",
   "development": {
     "chaijs/chai": "1.7.2",
-    "jkroso/serve": "1.4.8",
-    "component/inherit": "0.0.2",
-    "chaijs/chai-spies": "0.5.1",
-    "visionmedia/mocha": "1.12.0"
+    "jkroso/serve": "1.5.0",
+    "visionmedia/mocha": "1.12.1"
   }
 }

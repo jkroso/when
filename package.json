@@ -3,7 +3,7 @@
   "version": "3.4.0",
   "description": "handle results",
   "dependencies": {
-    "result": "0.3.3",
+    "result": "0.3.4",
     "result-type": "1.0.0"
   },
   "repository": {
